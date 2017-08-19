@@ -64,8 +64,50 @@ const pixelRatio =
 // Draws a rounded rectangle on a 2D context.
 const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
   if (borderRadius === 0) {
-    context.rect(x, y, width, height)
+    console.log('Im herererere');
+    context.beginPath();
+    context.moveTo(x, y);
+    context.lineTo(x + width, y);
+    context.lineTo(x + width, y + (height * 0.75));
+    context.lineTo(x, y + height);
+    context.lineTo(x, y);
+    // context.stroke();
   } else {
+
+    var lineColor = "rgba(151, 151, 151, 0.3)";
+    var lineWidth = 1;
+
+    context.beginPath();
+    context.moveTo(x + (width / 3), y);
+    context.lineTo(x + (width / 3), y + height);
+    context.strokeStyle = lineColor;
+    context.lineWidth = lineWidth;
+    context.stroke();
+
+    context.beginPath();
+    context.moveTo(x + (width / 3 * 2), y);
+    context.lineTo(x + (width / 3 * 2), y + height);
+    context.strokeStyle = lineColor;
+    context.lineWidth = lineWidth;
+    context.stroke();
+
+    context.beginPath();
+    context.moveTo(x, y + (height / 3));
+    context.lineTo(x + width, y + (height / 3));
+    context.strokeStyle = lineColor;
+    context.lineWidth = lineWidth;
+    context.stroke();
+   
+    context.beginPath();
+    context.moveTo(x, y + (height / 3 * 2));
+    context.lineTo(x + width, y + (height / 3 * 2));
+    context.strokeStyle = lineColor;
+    context.lineWidth = lineWidth;
+    context.stroke();
+
+    context.moveTo(x, y);
+
+
     const widthMinusRad = width - borderRadius
     const heightMinusRad = height - borderRadius
     context.translate(x, y)
@@ -100,7 +142,7 @@ const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
       Math.PI * 0.5,
       Math.PI
     )
-    context.translate(-x, -y)
+    context.translate(-x, -y);
   }
 }
 
