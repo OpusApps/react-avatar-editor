@@ -64,19 +64,34 @@ const pixelRatio =
 // Draws a rounded rectangle on a 2D context.
 const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
   if (borderRadius === 0) {
-    console.log('Im herererere');
+    /**
+     * Creates the non opcity space between boarders.
+     * Replacing the rect that belongs here in order to make
+     * space background image border for opus.
+     */
     context.beginPath();
     context.moveTo(x, y);
     context.lineTo(x + width, y);
     context.lineTo(x + width, y + (height * 0.75));
     context.lineTo(x, y + height);
     context.lineTo(x, y);
-    // context.stroke();
   } else {
 
+    /**
+     * Guide lines for profile picture
+     *        |     |
+     *        |     |
+     *  -------------------
+     *        |     |
+     *        |     |
+     *  -------------------
+     *        |     |
+     *        |     |
+     */
     var lineColor = "rgba(151, 151, 151, 0.3)";
     var lineWidth = 1;
 
+    // vertical guide left
     context.beginPath();
     context.moveTo(x + (width / 3), y);
     context.lineTo(x + (width / 3), y + height);
@@ -84,6 +99,7 @@ const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
     context.lineWidth = lineWidth;
     context.stroke();
 
+    // vertical guide right
     context.beginPath();
     context.moveTo(x + (width / 3 * 2), y);
     context.lineTo(x + (width / 3 * 2), y + height);
@@ -91,6 +107,7 @@ const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
     context.lineWidth = lineWidth;
     context.stroke();
 
+    // horizontal guide top 
     context.beginPath();
     context.moveTo(x, y + (height / 3));
     context.lineTo(x + width, y + (height / 3));
@@ -98,6 +115,7 @@ const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
     context.lineWidth = lineWidth;
     context.stroke();
    
+   // horizontal guide bottom
     context.beginPath();
     context.moveTo(x, y + (height / 3 * 2));
     context.lineTo(x + width, y + (height / 3 * 2));
@@ -106,6 +124,7 @@ const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
     context.stroke();
 
     context.moveTo(x, y);
+    // end guide lines for profile picture
 
 
     const widthMinusRad = width - borderRadius
