@@ -61,9 +61,7 @@ const pixelRatio =
     ? window.devicePixelRatio
     : 1
 
-// Draws a rounded rectangle on a 2D context.
-const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
-  if (borderRadius === 0) {
+const drawOpusBorder = (context, x, y, width, height, angleLeftRight = true) => {
     /**
      * Creates the non opcity space between boarders.
      * Replacing the rect that belongs here in order to make
@@ -72,9 +70,30 @@ const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
     context.beginPath();
     context.moveTo(x, y);
     context.lineTo(x + width, y);
-    context.lineTo(x + width, y + (height * 0.75));
-    context.lineTo(x, y + height);
+    if (angleLeftRight) {
+       context.lineTo(x + width, y + (height * 0.75));
+       context.lineTo(x, y + height);
+    } else {
+       context.lineTo(x + width, y + height);
+       context.lineTo(x, y + (height * 0.75));
+    }
     context.lineTo(x, y);
+}
+
+// Draws a rounded rectangle on a 2D context.
+const drawRoundedRect = (context, x, y, width, height, borderRadius, showOpusBorder, changeOpusBorderAngel) => {
+  const isNoBoarder = borderRadius === 0;
+  if (isNoBoarder && !showOpusBorder) {
+    context.rect(x, y, width, height)
+  } else if (isNoBoarder && showOpusBorder) {
+      drawOpusBorder(
+        context,
+        x,
+        y,
+        width,
+        height,
+        !changeOpusBorderAngel
+      )
   } else {
 
     /**
@@ -197,7 +216,10 @@ class AvatarEditor extends React.Component {
     onMouseMove: PropTypes.func,
     onPositionChange: PropTypes.func,
 
-    disableDrop: PropTypes.bool
+    disableDrop: PropTypes.bool,
+    showGridGuides: PropTypes.bool,
+    showOpusBorder: PropTypes.bool,
+    changeOpusBorderAngel: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -600,6 +622,10 @@ class AvatarEditor extends React.Component {
     context.fillStyle = 'rgba(' + this.props.color.slice(0, 4).join(',') + ')'
 
     let borderRadius = this.props.borderRadius
+    const changeOpusBorderAngel = this.props.changeOpusBorderAngel
+    const showGridGuides = this.props.showGridGuides
+    const showOpusBorder = this.props.showOpusBorder
+
     const dimensions = this.getDimensions()
     const [borderSizeX, borderSizeY] = this.getBorders(dimensions.border)
     const height = dimensions.canvas.height
@@ -614,6 +640,7 @@ class AvatarEditor extends React.Component {
     )
 
     context.beginPath()
+
     // inner rect, possibly rounded
     drawRoundedRect(
       context,
@@ -621,7 +648,9 @@ class AvatarEditor extends React.Component {
       borderSizeY,
       width - borderSizeX * 2,
       height - borderSizeY * 2,
-      borderRadius
+      borderRadius,
+      showOpusBorder,
+      changeOpusBorderAngel
     )
     context.rect(width, 0, -width, height) // outer rect, drawn "counterclockwise"
     context.fill('evenodd')
