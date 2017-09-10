@@ -80,23 +80,8 @@ const drawOpusBorder = (context, x, y, width, height, angleLeftRight = true) => 
     context.lineTo(x, y);
 }
 
-// Draws a rounded rectangle on a 2D context.
-const drawRoundedRect = (context, x, y, width, height, borderRadius, showOpusBorder, changeOpusBorderAngel) => {
-  const isNoBoarder = borderRadius === 0;
-  if (isNoBoarder && !showOpusBorder) {
-    context.rect(x, y, width, height)
-  } else if (isNoBoarder && showOpusBorder) {
-      drawOpusBorder(
-        context,
-        x,
-        y,
-        width,
-        height,
-        !changeOpusBorderAngel
-      )
-  } else {
-
-    /**
+const drawGuidLines = (context, x, y, width, height) => {
+     /**
      * Guide lines for profile picture
      *        |     |
      *        |     |
@@ -143,8 +128,23 @@ const drawRoundedRect = (context, x, y, width, height, borderRadius, showOpusBor
     context.stroke();
 
     context.moveTo(x, y);
-    // end guide lines for profile picture
+}
 
+// Draws a rounded rectangle on a 2D context.
+const drawRoundedRect = (context, x, y, width, height, borderRadius, showOpusBorder, changeOpusBorderAngel) => {
+  const isNoBoarder = borderRadius === 0;
+  if (isNoBoarder && !showOpusBorder) {
+    context.rect(x, y, width, height)
+  } else if (isNoBoarder && showOpusBorder) {
+      drawOpusBorder(
+        context,
+        x,
+        y,
+        width,
+        height,
+        !changeOpusBorderAngel
+      )
+  } else {
 
     const widthMinusRad = width - borderRadius
     const heightMinusRad = height - borderRadius
@@ -640,6 +640,16 @@ class AvatarEditor extends React.Component {
     )
 
     context.beginPath()
+
+    if (showGridGuides) {
+      drawGuidLines(
+          context,
+          borderSizeX,
+          borderSizeY,
+          width - borderSizeX * 2,
+          height - borderSizeY * 2,
+      )
+    }
 
     // inner rect, possibly rounded
     drawRoundedRect(
