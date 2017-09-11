@@ -133,6 +133,7 @@ const drawGuidLines = (context, x, y, width, height) => {
 // Draws a rounded rectangle on a 2D context.
 const drawRoundedRect = (context, x, y, width, height, borderRadius, showOpusBorder, changeOpusBorderAngel) => {
   const isNoBoarder = borderRadius === 0;
+
   if (isNoBoarder && !showOpusBorder) {
     context.rect(x, y, width, height)
   } else if (isNoBoarder && showOpusBorder) {
@@ -145,7 +146,6 @@ const drawRoundedRect = (context, x, y, width, height, borderRadius, showOpusBor
         !changeOpusBorderAngel
       )
   } else {
-
     const widthMinusRad = width - borderRadius
     const heightMinusRad = height - borderRadius
     context.translate(x, y)
@@ -638,6 +638,10 @@ class AvatarEditor extends React.Component {
       width / 2 - borderSizeX,
       height / 2 - borderSizeY
     )
+
+    console.log("props in r a e", this.props)
+    console.log("changeOpusBorderAngel in r a e", changeOpusBorderAngel)
+    console.log("showOpusBorder in r a e", showOpusBorder)
 
     context.beginPath()
 
